@@ -21,13 +21,15 @@ class Game:
         self.cubes = []
         for i in range(0, field_size):
             self.cubes.append([0] * field_size)
-        self.colorList = {1: "red", 2: "blue", 3: "green", 4: "purple", 5: "yellow"}  
-        self.backLightList = {1: "salmon", 2: "deepskyblue", 3: "palegreen", 4: "mediumslateblue", 5: "lemonchiffon"}  
+        self.colorList = {1: "red", 2: "blue", 3: "green", 4: "purple",
+                          5: "yellow"}
+        self.backLightList = {1: "salmon", 2: "deepskyblue", 3: "palegreen",
+                              4: "mediumslateblue", 5: "lemonchiffon"}
         self.lightedCubes = []
         self.passedPoints = []
         for i in range(0, field_size):
             self.passedPoints.append([0] * field_size)
-        self.scores = 0  
+        self.scores = 0
         self.possibleScores = 0
         self.label1 = Label(self.c)
         self.label2 = Label(self.c)
@@ -38,18 +40,22 @@ class Game:
         self.minLeaderScores = 0
         self.game_end = False
         self.field_size = field_size
-    
+
     def rectang_painter(self, x, y, color_code, size):
-        self.cubes[x][y] = self.c.create_rectangle(x * size, y * size, x * size + size, y * size + size,
+        self.cubes[x][y] = self.c.create_rectangle(x * size, y * size,
+                                                   x * size + size,
+                                                   y * size + size,
                                                    fill=self.colorList[color_code])
 
     def back_light_painter(self, x, y, color_code, size):
-        self.lightedCubes.append(self.c.create_rectangle(x * size, y * size, x * size + size, y * size + size,
+        self.lightedCubes.append(self.c.create_rectangle(x * size, y * size,
+                                                         x * size + size,
+                                                         y * size + size,
                                                          fill=self.backLightList[color_code]))
 
     def restarter(self, event):
         self.game_end = False
-        random.seed()    
+        random.seed()
         for j in range(0, 15):
             for i in range(0, 15):
                 self.map[i][j] = random.randint(1, 5)
@@ -61,25 +67,31 @@ class Game:
                 self.rectang_painter(i, j, self.map[i][j], self.size)
                 self.oldMap[i][j] = self.map[i][j]
         self.label1.config(text="Счет:\n" + str(self.scores))
-    
+
     def map_painter(self, size):
-        self.c.create_rectangle(15 * size, 0, 15 * size + 400, 15 * size, fill="lightblue3")
+        self.c.create_rectangle(15 * size, 0, 15 * size + 400, 15 * size,
+                                fill="lightblue3")
         for j in range(0, 15):
             for i in range(0, 15):
-                self.oldMap[i][j] = self.map[i][j]   
+                self.oldMap[i][j] = self.map[i][j]
                 self.rectang_painter(i, j, self.map[i][j], size)
 
-        but1 = Button(self.c, text="Рестарт", width=9, height=2, bg="white", fg="lightblue4", font="arial 20")
+        but1 = Button(self.c, text="Рестарт", width=9, height=2, bg="white",
+                      fg="lightblue4", font="arial 20")
         but1.place(x=size * 15 + 5, y=260)
-        but2 = Button(self.c, text="Сохранить", width=9, height=2, bg="white", fg="lightblue4", font="arial 20")
+        but2 = Button(self.c, text="Сохранить", width=9, height=2, bg="white",
+                      fg="lightblue4", font="arial 20")
         but2.place(x=size * 15 + 5, y=360)
-        but3 = Button(self.c, text="Загрузить", width=9, height=2, bg="white", fg="lightblue4", font="arial 20")
+        but3 = Button(self.c, text="Загрузить", width=9, height=2, bg="white",
+                      fg="lightblue4", font="arial 20")
         but3.place(x=size * 15 + 5, y=460)
 
-        self.label1 = Label(self.c, text="Счет:\n" + str(self.scores), width=15, height=3,
+        self.label1 = Label(self.c, text="Счет:\n" + str(self.scores),
+                            width=15, height=3,
                             bg="lightblue", fg="lightblue4", font="arial 25")
         self.label1.place(x=size * 15 + 5, y=5)
-        self.label2 = Label(self.c, text="Возможные очки:\n" + str(self.possibleScores), width=15, height=3,
+        self.label2 = Label(self.c, text="Возможные очки:\n" +
+                            str(self.possibleScores), width=15, height=3,
                             bg="lightblue", fg="lightblue4", font="arial 25")
         self.label2.place(x=size * 15 + 5, y=130)
         label3 = Label(self.c, text="Ваш ник:", width=10, height=1,
@@ -87,16 +99,17 @@ class Game:
         label3.place(x=size * 15 + 205, y=260)
         self.leaders_table_load("leaders//leaders.txt")
 
-        self.text = Text(self.c, width=10, height=1, bg="white", fg="lightblue4", font="arial 20")
+        self.text = Text(self.c, width=10, height=1, bg="white",
+                         fg="lightblue4", font="arial 20")
         self.text.place(x=size * 15 + 205, y=300)
-    
+
         but2.bind("<Button-1>", self.save_game)
         but3.bind("<Button-1>", self.load_game)
         but1.bind("<Button-1>", self.restarter)
 
         self.c.bind('<1>', self.mouse_down_event_analyser)
         self.c.bind('<Motion>', self.backlight_event_analyser)
-    
+
     def leaders_table_load(self, path):
         self.c.delete(self.leadersLabel)
         leaders_tab = open(path, "r")
@@ -137,7 +150,7 @@ class Game:
                     counter += 1
             save_file.close()
             self.map_refresh(self.size)
-        
+
     def save_game(self, event, leaders_path="leaders.txt", nick=0):
         if nick == 0:
             self.nickName = self.text.get('1.0', '1.10')
@@ -178,8 +191,8 @@ class Game:
     def map_refresh(self, size):
         for j in range(0, self.field_size):
             for i in range(0, self.field_size):
-                if self.map[i][j] != self.oldMap[i][j]: 
-                    self.c.delete(self.cubes[i][j])   
+                if self.map[i][j] != self.oldMap[i][j]:
+                    self.c.delete(self.cubes[i][j])
                     if self.map[i][j] != 0:
                         self.rectang_painter(i, j, self.map[i][j], size)
                     self.oldMap[i][j] = self.map[i][j]
@@ -204,7 +217,8 @@ class Game:
             if len(same_cubes) > 1:
                 for i in same_cubes:
                     current_possible_scores += 1
-                    self.back_light_painter(i.x, i.y, self.map[i.x][i.y], self.size)
+                    self.back_light_painter(i.x, i.y, self.map[i.x][i.y],
+                                            self.size)
                 self.possibleScores = current_possible_scores * current_possible_scores * current_possible_scores
 
     def mouse_down_event_analyser(self, event):
@@ -241,7 +255,7 @@ class Game:
                     self.map[point.x][j] = 0
         self.shift_columns_search()
         self.map_refresh(self.size)
-    
+
     def shift_columns_search(self):
         shift_columns = []
         for x in range(0, self.field_size):
@@ -256,7 +270,7 @@ class Game:
                             self.map[x][y] = 0
                             continue
                         self.map[x][y] = self.map[x+1][y]
-        
+
     def same_cubes_search(self, event_x, event_y):
         if event_x == self.size * self.field_size:
             event_x = self.size * self.field_size - 1
@@ -283,7 +297,7 @@ class Game:
                     q.put(Point(point.x - 1, point.y))
             if point.y + 1 < self.field_size:
                 if self.map[point.x][point.y + 1] == current_color:
-                    q.put(Point(point.x, point.y + 1))                  
+                    q.put(Point(point.x, point.y + 1))
             if point.y - 1 >= 0:
                 if self.map[point.x][point.y - 1] == current_color:
                     q.put(Point(point.x, point.y - 1))
@@ -324,7 +338,8 @@ class Game:
 
         root = Tk()
         root.title("Cubes")
-        c = Canvas(root, width=15 * size + 400, height=15 * size, bg="lightblue")
+        c = Canvas(root, width=15 * size + 400, height=15 * size,
+                   bg="lightblue")
         c.pack()
 
         random.seed()
@@ -336,7 +351,6 @@ class Game:
         game = Game(game_map, c, size, 15)
         game.map_painter(size)
         root.mainloop()
-        
+
 if __name__ == '__main__':
     Game.game_starter()
-

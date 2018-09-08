@@ -155,10 +155,10 @@ class TestCubesMethods(unittest.TestCase):
         self.assertEqual(self.game.minLeaderScores, 18399)
 
     def test_loadgame(self):
-        self.game.text.insert(1.0, "loadtest")
+        self.game.text.insert(1.0, "test583")
         e = Event
         self.game.load_game(e)
-        self.assertEqual(self.game.scores, 4400)
+        self.assertEqual(self.game.scores, 18400)
 
     def test_game_end1(self):
         self.game.map = [[0, 0, 0, 0, 3],
